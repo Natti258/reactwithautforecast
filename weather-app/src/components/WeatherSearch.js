@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Weather from "./Weather";
-import Forecast from "./Forecast";
 
 function WeatherSearch() {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
-  const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
@@ -17,15 +15,9 @@ function WeatherSearch() {
       );
       setWeatherData(weatherResponse.data);
       setError(null);
-
-      const forecastResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=59a99bf814c1d687d082fbb625caab0c`
-      );
-      setForecastData(forecastResponse.data);
     } catch (error) {
       setError("City not found");
       setWeatherData(null);
-      setForecastData(null);
     }
   };
 
@@ -43,7 +35,6 @@ function WeatherSearch() {
       </form>
       {error && <p>{error}</p>}
       {weatherData && <Weather data={weatherData} />}
-      {forecastData && <Forecast data={forecastData} />}
     </div>
   );
 }
